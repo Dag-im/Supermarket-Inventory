@@ -1,0 +1,50 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Plus Jakarta Sans", sans-serif;
+  
+  --color-bg-main: #F8FAFC;
+  --color-brand-primary: #4F46E5;
+  --color-brand-secondary: #DB2777;
+  --color-brand-accent: #D97706;
+  
+  --color-border-subtle: rgba(79, 70, 229, 0.15);
+  --color-ink-main: #0F172A;
+  --color-ink-muted: #475569;
+}
+
+@layer base {
+  body {
+    @apply bg-bg-main text-ink-main font-sans antialiased text-base;
+  }
+  
+  h1, h2, h3 {
+    @apply font-display font-bold tracking-tight;
+  }
+}
+
+.card-vibrant {
+  @apply bg-white border border-border-subtle rounded-[2rem] shadow-xl shadow-indigo-500/5 p-8 transition-all hover:shadow-indigo-500/10;
+}
+
+.btn-vibrant-primary {
+  @apply bg-brand-primary text-white px-8 py-4 rounded-2xl font-extrabold text-sm hover:bg-indigo-700 transition-all active:scale-95 shadow-lg shadow-indigo-500/25 flex items-center justify-center gap-2 uppercase tracking-widest;
+}
+
+.btn-vibrant-secondary {
+  @apply bg-white text-brand-primary border-2 border-brand-primary/20 px-8 py-4 rounded-2xl font-extrabold text-sm hover:bg-indigo-50 transition-all active:scale-95 flex items-center justify-center gap-2 uppercase tracking-widest;
+}
+
+.badge-vibrant {
+  @apply px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest border;
+}
+
+.data-table-header {
+  @apply text-[11px] font-black uppercase tracking-widest text-ink-muted py-4 px-6 bg-indigo-50/30;
+}
+
+.data-table-cell {
+  @apply py-5 px-6 text-sm border-b border-indigo-50;
+}

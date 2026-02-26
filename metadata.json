@@ -1,0 +1,5 @@
+{
+  "name": "StockFlow Enterprise",
+  "description": "Advanced two-location inventory management system with real-time tracking, batch/expiry management, and predictive analytics.",
+  "requestFramePermissions": []
+}
