@@ -1,89 +1,154 @@
 import React, { useState } from 'react';
 import { useApp } from '../context/AppContext';
-import { Package, Lock, User as UserIcon } from 'lucide-react';
-import { motion } from 'motion/react';
+import { Package, Lock, User as UserIcon, ArrowRight, Shield } from 'lucide-react';
+import { motion } from 'framer-motion';
 
 export const LoginPage: React.FC = () => {
   const [username, setUsername] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
   const { login } = useApp();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    login(username);
+    setIsLoading(true);
+    setTimeout(() => {
+      login(username);
+      setIsLoading(false);
+    }, 800);
   };
 
   return (
-    <div className="min-h-screen bg-[#E4E3E0] flex items-center justify-center p-4">
-      <motion.div 
-        initial={{ opacity: 0, y: 10 }}
-        animate={{ opacity: 1, y: 0 }}
-        className="w-full max-w-md bg-white rounded-lg shadow-2xl border border-border-subtle overflow-hidden"
-      >
-        <div className="bg-[#1A1A1A] p-10 text-white text-center">
-          <div className="w-12 h-12 bg-emerald-500 rounded flex items-center justify-center mx-auto mb-6">
-            <Package className="w-6 h-6 text-black" />
-          </div>
-          <h1 className="text-xl font-bold tracking-tight">STOCKFLOW</h1>
-          <p className="text-white/30 text-[9px] uppercase tracking-[0.4em] mt-2 font-mono">Enterprise v2.4.0</p>
-        </div>
+    <div className="min-h-screen bg-white flex items-center justify-center p-4">
+      <div className="w-full max-w-md">
+        {/* Minimalist header */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          className="text-center mb-12"
+        >
+          <motion.div
+            initial={{ scale: 0.9 }}
+            animate={{ scale: 1 }}
+            transition={{ type: "spring", stiffness: 200 }}
+            className="inline-flex items-center justify-center w-14 h-14 bg-black rounded-2xl mb-5"
+          >
+            <Package className="w-7 h-7 text-white" />
+          </motion.div>
+          <h1 className="text-3xl font-light text-gray-900 tracking-tight">
+            Stockflow
+          </h1>
+          <p className="text-sm text-gray-400 mt-2 tracking-wide">
+            Inventory Management System
+          </p>
+        </motion.div>
 
-        <div className="p-10">
-          <form onSubmit={handleSubmit} className="space-y-5">
-            <div className="space-y-1.5">
-              <label className="text-[10px] font-bold uppercase tracking-widest text-ink-muted px-1">Identity</label>
+        {/* Clean card with minimal styling */}
+        <motion.div
+          initial={{ y: 20, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ delay: 0.1 }}
+          className="bg-white rounded-3xl border border-gray-100 p-8 shadow-[0_8px_30px_rgb(0,0,0,0.02)]"
+        >
+          <form onSubmit={handleSubmit} className="space-y-6">
+            {/* Username */}
+            <div>
+              <label className="block text-xs font-medium text-gray-500 uppercase tracking-wider mb-2">
+                Username
+              </label>
               <div className="relative">
-                <UserIcon className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-ink-muted" />
+                <UserIcon className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-300" />
                 <input
                   type="text"
                   value={username}
                   onChange={(e) => setUsername(e.target.value)}
-                  placeholder="Username"
-                  className="w-full pl-9 pr-4 py-2.5 bg-gray-50 border border-border-subtle rounded text-sm focus:ring-1 focus:ring-emerald-500 transition-all outline-none"
+                  placeholder="Enter username"
+                  className="w-full pl-11 pr-4 py-3.5 bg-gray-50 border border-gray-100 rounded-xl text-sm text-gray-900 placeholder-gray-300 focus:ring-2 focus:ring-black focus:border-transparent transition-all outline-none"
                   required
                 />
               </div>
             </div>
 
-            <div className="space-y-1.5">
-              <label className="text-[10px] font-bold uppercase tracking-widest text-ink-muted px-1">Access Key</label>
+            {/* Password */}
+            <div>
+              <label className="block text-xs font-medium text-gray-500 uppercase tracking-wider mb-2">
+                Password
+              </label>
               <div className="relative">
-                <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-ink-muted" />
+                <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-300" />
                 <input
                   type="password"
+                  placeholder="Enter password"
+                  className="w-full pl-11 pr-4 py-3.5 bg-gray-50 border border-gray-100 rounded-xl text-sm text-gray-900 placeholder-gray-300"
                   value="password"
                   readOnly
-                  className="w-full pl-9 pr-4 py-2.5 bg-gray-50 border border-border-subtle rounded text-sm opacity-50 cursor-not-allowed"
                 />
               </div>
             </div>
 
-            <button
+            {/* Submit button */}
+            <motion.button
               type="submit"
-              className="btn-primary w-full py-3 mt-2"
+              disabled={isLoading}
+              whileHover={{ scale: 1.01 }}
+              whileTap={{ scale: 0.99 }}
+              className="w-full py-4 bg-black text-white rounded-xl font-medium text-sm hover:bg-gray-900 transition-colors flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed mt-8"
             >
-              Authenticate
-            </button>
+              {isLoading ? (
+                <>
+                  <motion.div
+                    animate={{ rotate: 360 }}
+                    transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+                    className="w-4 h-4 border-2 border-white border-t-transparent rounded-full"
+                  />
+                  Signing in...
+                </>
+              ) : (
+                <>
+                  Sign in to dashboard
+                  <ArrowRight className="w-4 h-4" />
+                </>
+              )}
+            </motion.button>
           </form>
 
-          <div className="mt-8 pt-8 border-t border-border-subtle">
-            <p className="text-[9px] text-center text-ink-muted uppercase tracking-widest mb-4 font-bold">System Access Profiles</p>
-            <div className="grid grid-cols-3 gap-2">
-              {['owner', 'store', 'dispatch'].map(u => (
-                <button
-                  key={u}
-                  onClick={() => setUsername(u)}
-                  className="py-2 px-1 bg-gray-50 border border-border-subtle rounded text-[9px] font-bold uppercase hover:bg-emerald-500 hover:text-white hover:border-emerald-500 transition-all"
+          {/* Quick access */}
+          <div className="mt-8">
+            <p className="text-xs text-gray-400 text-center mb-4">
+              Demo access
+            </p>
+            <div className="flex gap-3 justify-center">
+              {['owner', 'store', 'dispatch'].map((role) => (
+                <motion.button
+                  key={role}
+                  whileHover={{ y: -2 }}
+                  onClick={() => setUsername(role)}
+                  className="px-4 py-2 bg-gray-50 hover:bg-gray-100 rounded-lg transition-colors"
                 >
-                  {u}
-                </button>
+                  <span className="text-xs font-medium text-gray-600 capitalize">
+                    {role}
+                  </span>
+                </motion.button>
               ))}
             </div>
           </div>
-        </div>
-        <div className="p-4 bg-gray-50 border-t border-border-subtle text-center">
-          <p className="text-[8px] text-ink-muted uppercase tracking-tighter">Secure Terminal • Authorized Access Only</p>
-        </div>
-      </motion.div>
+        </motion.div>
+
+        {/* Footer */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.3 }}
+          className="text-center mt-8 space-y-2"
+        >
+          <div className="flex items-center justify-center gap-2 text-xs text-gray-300">
+            <Shield className="w-3 h-3" />
+            <span>Secure enterprise login</span>
+          </div>
+          <p className="text-xs text-gray-200">
+            Version 2.4.0
+          </p>
+        </motion.div>
+      </div>
     </div>
   );
 };
